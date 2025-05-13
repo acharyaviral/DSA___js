@@ -28,3 +28,15 @@ function merge(arr1, arr2) {
 }
 
 merge([1, 3, 5], [2, 4, 6]); // [1, 2, 3, 4, 5, 6]
+
+//Merge sort
+function mergeSort(arr) {
+	if (arr.length <= 1) return arr;
+	const mid = Math.floor(arr.length / 2);
+	const left = mergeSort(arr.slice(0, mid));
+	const right = mergeSort(arr.slice(mid));
+
+	return merge(left, right);
+}
+
+mergeSort([38, 27, 43, 3, 9, 82, 10]); // [3, 9, 10, 27, 38, 43, 82]
