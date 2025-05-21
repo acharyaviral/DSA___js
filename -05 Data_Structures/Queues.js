@@ -11,6 +11,7 @@ class Queue {
 		this.last = null;
 		this.size = 0;
 	}
+
 	// Adds a value to the end of the queue
 	enqueue(value) {
 		const newNode = new Node(value);
