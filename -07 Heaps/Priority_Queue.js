@@ -1,34 +1,41 @@
-class MaxBinaryHeap {
+class PriorityQueue {
 	constructor() {
 		this.values = [];
 	}
 
-	insert(val) {
-		this.values.push(val);
+	enqueue(val, priority) {
+		const newNode = new Node(val, priority);
+		this.values.push(newNode);
 		this.bubbleUp();
 	}
 
 	bubbleUp() {
 		let idx = this.values.length - 1;
 		const element = this.values[idx];
+
 		while (idx > 0) {
 			const parentIdx = Math.floor((idx - 1) / 2);
 			const parent = this.values[parentIdx];
-			if (element <= parent) break;
-			this.values[idx] = parent;
+
+			if (element.priority >= parent.priority) break; // lower number = higher priority
+
+			// Swap
 			this.values[parentIdx] = element;
+			this.values[idx] = parent;
 			idx = parentIdx;
 		}
 	}
 
-	extractMax() {
-		const max = this.values[0];
+	dequeue() {
+		const min = this.values[0];
 		const end = this.values.pop();
+
 		if (this.values.length > 0) {
 			this.values[0] = end;
 			this.sinkDown();
 		}
-		return max;
+
+		return min;
 	}
 
 	sinkDown() {
@@ -45,7 +52,7 @@ class MaxBinaryHeap {
 
 			if (leftChildIdx < length) {
 				leftChild = this.values[leftChildIdx];
-				if (leftChild > element) {
+				if (leftChild.priority < element.priority) {
 					swap = leftChildIdx;
 				}
 			}
@@ -53,14 +60,15 @@ class MaxBinaryHeap {
 			if (rightChildIdx < length) {
 				rightChild = this.values[rightChildIdx];
 				if (
-					(swap === null && rightChild > element) ||
-					(swap !== null && rightChild > leftChild)
+					(swap === null && rightChild.priority < element.priority) ||
+					(swap !== null && rightChild.priority < leftChild.priority)
 				) {
 					swap = rightChildIdx;
 				}
 			}
 
 			if (swap === null) break;
+
 			this.values[idx] = this.values[swap];
 			this.values[swap] = element;
 			idx = swap;
@@ -68,22 +76,20 @@ class MaxBinaryHeap {
 	}
 }
 
-const heap = new MaxBinaryHeap();
-heap.insert(41);
-heap.insert(39);
-heap.insert(33);
-heap.insert(18);
-heap.insert(27);
-heap.insert(12);
-//       41
-//     /    \
-//    39     33
-//   /  \     /
-//  18   27  12
+class Node {
+	constructor(val, priority) {
+		this.val = val;
+		this.priority = priority;
+	}
+}
 
-heap.insert(55);
-//        55
-//      /    \
-//    39      41
-//   /  \    /  \
-// 18   27 12  33
+// Example usage
+const ER = new PriorityQueue();
+ER.enqueue("Common Cold", 5); // Low priority
+ER.enqueue("Gunshot Wound", 1); // High priority
+ER.enqueue("High Fever", 4);
+ER.enqueue("Broken Arm", 3);
+ER.enqueue("Head Injury", 2);
+
+console.log(ER.dequeue()); // { val: "Gunshot Wound", priority: 1 }
+console.log(ER.dequeue()); // { val: "Head Injury", priority: 2 }
