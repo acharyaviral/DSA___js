@@ -20,6 +20,7 @@ class HashTable {
 		}
 		this.keyMap[index].push([key, value]);
 	}
+
 	get(key) {
 		const index = this._hash(key);
 		if (this.keyMap[index]) {
