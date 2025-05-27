@@ -71,7 +71,6 @@ class Node {
 
 class WeightedGraph {
 	constructor() {
-		// ✅ fixed typo
 		this.adjacencyList = {};
 	}
 
@@ -93,7 +92,6 @@ class WeightedGraph {
 		const path = [];
 		let smallest;
 
-		// Initialize
 		for (const vertex in this.adjacencyList) {
 			if (vertex === start) {
 				distances[vertex] = 0;
@@ -105,11 +103,9 @@ class WeightedGraph {
 			previous[vertex] = null;
 		}
 
-		// Main loop
 		while (nodes.values.length) {
 			smallest = nodes.dequeue().val;
 			if (smallest === finish) {
-				// Build path
 				while (previous[smallest]) {
 					path.push(smallest);
 					smallest = previous[smallest];
@@ -118,7 +114,6 @@ class WeightedGraph {
 			}
 
 			if (smallest && distances[smallest] !== Number.POSITIVE_INFINITY) {
-				// ✅ fixed logic
 				for (const neighbor of this.adjacencyList[smallest]) {
 					const candidate = distances[smallest] + neighbor.weight;
 					if (candidate < distances[neighbor.node]) {
